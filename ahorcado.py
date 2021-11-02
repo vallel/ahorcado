@@ -1,8 +1,10 @@
 import requests
 from bs4 import BeautifulSoup
 
-ascii_steps = [
-"""
+
+def get_step_figures():
+    return [
+        """
  +====++
  |    ||
       ||
@@ -11,25 +13,25 @@ ascii_steps = [
       ||
 ============
 """,
-"""
- +====++
- |    ||
- O    ||
-      ||
-      ||
-      ||
-============
-""",
-"""
+        """
  +====++
  |    ||
  O    ||
+      ||
+      ||
+      ||
+============
+""",
+        """
+ +====++
+ |    ||
+ O    ||
  |    ||
       ||
       ||
 ============
 """,
-"""
+        """
  +====++
  |    ||
  O    ||
@@ -38,7 +40,7 @@ ascii_steps = [
       ||
 ============
 """,
-"""
+        """
  +====++
  |    ||
  O    ||
@@ -47,7 +49,7 @@ ascii_steps = [
       ||
 ============
 """,
-"""
+        """
  +====++
  |    ||
  O    ||
@@ -56,7 +58,7 @@ ascii_steps = [
       ||
 ============
 """,
-"""
+        """
  +====++
  |    ||
  O    ||
@@ -65,7 +67,8 @@ ascii_steps = [
       ||
 ============
 """
-]
+    ]
+
 
 def get_random_word():
     url = 'https://www.aleatorios.com/'
@@ -77,6 +80,7 @@ def get_random_word():
 
     return word
 
+
 def get_char_positions(char, word):
     pos = []
     for index, character in enumerate(word):
@@ -85,33 +89,41 @@ def get_char_positions(char, word):
 
     return pos
 
-welcome_msg = '*** Bienvenido al juego del ahorcado. ***\n'
-instructions_msg = '\n> Introduce una letra: '
 
-word = get_random_word()
-chars = (len(word) * '_ ').split()
+def play():
+    welcome_msg = '*** Bienvenido al juego del ahorcado. ***\n'
+    instructions_msg = '\n> Introduce una letra: '
 
-atempt = 0
+    word = get_random_word()
+    chars = (len(word) * '_ ').split()
 
-print(welcome_msg)
+    atempt = 0
 
-while True:
-    print('   ' + (' '.join(chars)) + '   ')
-    letter = input(instructions_msg)
+    print(welcome_msg)
 
-    if letter in word:
-        positions = get_char_positions(letter, word)
-        for pos in positions:
-            chars[pos] = letter
-    else:
-        print(ascii_steps[atempt])
-        atempt += 1
+    ascii_steps = get_step_figures()
 
-    if atempt == len(ascii_steps):
-        print('XXX Perdiste XXX')
-        print('La palabra era: ' + word)
-        break
-
-    if '_' not in chars:
+    while True:
         print('   ' + (' '.join(chars)) + '   ')
-        print('\n+++ GANASTE +++')
+        letter = input(instructions_msg)
+
+        if letter in word:
+            positions = get_char_positions(letter, word)
+            for pos in positions:
+                chars[pos] = letter
+        else:
+            print(ascii_steps[atempt])
+            atempt += 1
+
+        if atempt == len(ascii_steps):
+            print('XXX Perdiste XXX')
+            print('La palabra era: ' + word)
+            break
+
+        if '_' not in chars:
+            print('   ' + (' '.join(chars)) + '   ')
+            print('\n+++ GANASTE +++')
+            break
+
+
+play()
