@@ -91,21 +91,21 @@ def get_char_positions(char, word):
 
 
 def play():
-    welcome_msg = '*** Bienvenido al juego del ahorcado. ***\n'
-    instructions_msg = '\n> Introduce una letra: '
-
     word = get_random_word()
     chars = (len(word) * '_ ').split()
-
+    instructions_msg = '\n> Introduce una letra: '
+    ascii_steps = get_step_figures()
     atempt = 0
 
-    print(welcome_msg)
-
-    ascii_steps = get_step_figures()
+    print('*** Bienvenido al juego del ahorcado. ***\n')
 
     while True:
-        print('   ' + (' '.join(chars)) + '   ')
+        print('\n     ' + (' '.join(chars)) + '     \n')
         letter = input(instructions_msg)
+
+        if (len(letter) > 1):
+            print('** Debes introducir sólamente una letra. **')
+            continue
 
         if letter in word:
             positions = get_char_positions(letter, word)
